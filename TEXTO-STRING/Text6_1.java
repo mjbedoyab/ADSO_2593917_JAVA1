@@ -1,44 +1,99 @@
 import java.util.Scanner;
 
 public class Text6_1 {
-
     public static void main(String[] args) {
-        int[][] tablero = new int[3][3]; // Matriz para representar el tablero
-        int jugador = 1; // Jugador inicial
-        Scanner scanner = new Scanner(System.in); // Para leer las jugadas del jugador
-        
-        // Bucle principal
+        Scanner scanner = new Scanner(System.in);
+        char[][] tablero = new char[3][3];
+
+        // Inicializar el tablero
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                tablero[i][j] = '-';
+            }
+        }
+
+        int fila, columna;
+        char jugadorActual = 'X';
+
+        // Jugar hasta que alguien gane o empate
         while (true) {
-            // Mostrar el tablero actual
-            System.out.println("Tablero:");
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
+            // Imprimir el tablero actual
+            System.out.println("Tablero actual:");
+            for (int i = 0; i < tablero.length; i++) {
+                for (int j = 0; j < tablero[i].length; j++) {
                     System.out.print(tablero[i][j] + " ");
                 }
                 System.out.println();
             }
-            
-            // Pedir al jugador que realice su jugada
-            System.out.println("Turno del jugador " + jugador + ". Introduce la fila (0-2):");
-            int fila = scanner.nextInt();
-            System.out.println("Introduce la columna (0-2):");
-            int columna = scanner.nextInt();
-            
-            // Verificar si la jugada es válida
-            if (fila < 0 || fila > 2 || columna < 0 || columna > 2) {
-                System.out.println("Jugada inválida. Introduce valores entre 0 y 2.");
-            } else if (tablero[fila][columna] != 0) {
-                System.out.println("Jugada inválida. La celda ya está ocupada.");
-            } else {
-                // Asignar la jugada al jugador correspondiente
-                tablero[fila][columna] = jugador;
-                
-                // Verificar si hay un ganador
-                if (tablero[0][0] == jugador && tablero[0][1] == jugador && tablero[0][2] == jugador ||
-                    tablero[1][0] == jugador && tablero[1][1] == jugador && tablero[1][2] == jugador ||
-                    tablero[2][0] == jugador && tablero[2][1] == jugador && tablero[2][2] == jugador );
 
+            // Pedir la entrada del usuario
+            System.out.println("Jugador " + jugadorActual + ", es tu turno.");
+            System.out.print("Ingresa la fila (0-2): ");
+            fila = scanner.nextInt();
+            System.out.print("Ingresa la columna (0-2): ");
+            columna = scanner.nextInt();
+
+            // Verificar si la casilla está disponible
+            if (tablero[fila][columna] != '-') {
+                System.out.println("La casilla ya está ocupada. Intenta otra vez.");
+                continue;
             }
+
+            // Colocar la marca del jugador en la casilla
+            tablero[fila][columna] = jugadorActual;
+
+            // Verificar si alguien ganó
+            if (ganador(tablero)) {
+                System.out.println("¡Jugador " + jugadorActual + " ha ganado!");
+                break;
+            }
+
+            // Verificar si hay empate
+            if (empate(tablero)) {
+                System.out.println("¡El juego ha terminado en empate!");
+                break;
+            }
+
+            // Cambiar al siguiente jugador
+            jugadorActual = jugadorActual == 'X' ? 'O' : 'X';
         }
     }
+
+    // Verificar si alguien ganó
+    public static boolean ganador(char[][] tablero) {
+        // Revisar las filas
+        for (int i = 0; i < tablero.length; i++) {
+            if (tablero[i][0] != '-' && tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
+                return true;
+            }
+        }
+
+        // Revisar las columnas
+        for (int j = 0; j < tablero[0].length; j++) {
+            if (tablero[0][j] != '-' && tablero[0][j] == tablero[1][j] && tablero[1][j] == tablero[2][j]) {
+                return true;
+            }
+        }
+
+        // Revisar las diagonales
+        if (tablero[0][0] != '-' && tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
+            return true;
+        }
+
+        // Revisar las diagonales
+        if (tablero[2][0] != '-' && tablero[2][0] == tablero[1][1] && tablero[1][1] == tablero[0][2]) {
+            return true;
+        }
+        return false;
+    }
+    public static boolean empate(char[][] tablero){
+		for (int i=0; i<tablero.length; i++) {
+			for (int j=0; j<tablero[i].length; j++ ) {
+				if (tablero[i][j]=='-') {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 }
