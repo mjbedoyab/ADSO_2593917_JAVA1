@@ -10,16 +10,31 @@ public class Factura1Layout extends JFrame {
 
 	private Persona listaClientes [];
 	private PersonaV listaVendedores [];
+	private Productos arrayProductos [];
+    private int totalCompra = 0;
 	private JTextField input_cedula;
 	private JTextField input_nombre;
 	private JTextField input_direccion;
 	private JTextField input_cedulas;
 	private JTextField input_nombres;
 	private JTextField input_nom;
+	private JLabel etq_temporal;
+	private JLabel etqId;
+    private JLabel etqNombreProducto;
+    private JLabel etqCantidad;
+    private JPanel listaProductos;
+    private JLabel etqTotal;
+	private JTextField inputId;
+    private JTextField nombreProducto;
+    private JTextField cantidadProducto;
+	private JButton botonAgregar;
+    private JButton botonLimpiar;
     
-    public Factura1Layout(Persona[] listaClientes, PersonaV[] listaVendedores) {
+    public Factura1Layout(Persona[] listaClientes, PersonaV[] listaVendedores, Productos [] arrayProductos) {
 		this.listaClientes = listaClientes;
 		this.listaVendedores = listaVendedores;
+		this.arrayProductos = arrayProductos;
+
         initComponet();
     }
     public void initComponet() {
@@ -200,127 +215,138 @@ public class Factura1Layout extends JFrame {
 		restriccion.fill = GridBagConstraints.BOTH;
 		contPrincipal.add( lista_productos, restriccion );
 
-        JLabel id = new JLabel("ID:");
-        id.setHorizontalAlignment( JLabel.CENTER );
-		restriccion.gridy = 8;
-		restriccion.gridx = 0;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 2;
-		restriccion.weightx = 10;
-		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( id, restriccion );
+        //** --- Seccion productos --- */
 
-        JLabel nombre1 = new JLabel("NOMBRE:");
-        nombre1.setHorizontalAlignment( JLabel.CENTER );
-		restriccion.gridy = 8;
-		restriccion.gridx = 1;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 2;
-		restriccion.weightx = 70;
-		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( nombre1, restriccion );
+        etqId = new JLabel("ID ");
+        etqId.setHorizontalAlignment( JLabel.CENTER );
+        restriccion.gridx = 0;
+        restriccion.gridy = 8;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 20;
+        restriccion.insets = new Insets(0, 0, 0, 0);
+        restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(etqId, restriccion);
 
-        JLabel cant = new JLabel("CANT:");
-        cant.setHorizontalAlignment( JLabel.CENTER );
-		restriccion.gridy = 8;
-		restriccion.gridx = 2;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 2;
-		restriccion.weightx = 10;
-		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( cant, restriccion );
+        etqNombreProducto = new JLabel("NOMBRE");
+        etqNombreProducto.setHorizontalAlignment( JLabel.CENTER );
+        restriccion.gridx = 1;
+        restriccion.gridy = 8;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 50;
+        restriccion.insets = new Insets(0, 0, 0, 0);
+        restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(etqNombreProducto, restriccion);
 
-        JLabel vacio = new JLabel();
-		restriccion.gridy = 8;
-		restriccion.gridx = 3;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 2;
-		restriccion.weightx = 10;
+        etqCantidad = new JLabel("CANT ");
+        etqCantidad.setHorizontalAlignment( JLabel.CENTER );
+        restriccion.gridx = 2;
+        restriccion.gridy = 8;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 10;
 		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( vacio, restriccion );
+        restriccion.insets = new Insets(0, 0, 0, 0);
+		restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(etqCantidad, restriccion);
 
-        JTextField input_id = new JTextField();
-		input_cedula.setBorder( BorderFactory.createEmptyBorder(0, 10, 0, 10) );
-		restriccion.gridy = 9;
-		restriccion.gridx = 0;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 1;
-		restriccion.weightx = 10;
-		restriccion.insets = new Insets(0, 10, 0, 10);
+        inputId = new JTextField(" ");
+        restriccion.gridx = 0;
+        restriccion.gridy = 9;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 20;
 		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( input_id, restriccion );
+        restriccion.insets = new Insets(0, 0, 0, 0);
+		restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(inputId, restriccion);
 
-        input_nom = new JTextField();
-		input_cedula.setBorder( BorderFactory.createEmptyBorder(0, 10, 0, 10) );
-		restriccion.gridy = 9;
-		restriccion.gridx = 1;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 1;
-		restriccion.weightx = 70;
-		restriccion.insets = new Insets(0, 10, 0, 10);
+        nombreProducto = new JTextField(" ");
+        restriccion.gridx = 1;
+        restriccion.gridy = 9;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 50;
 		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( input_nom, restriccion );
+        restriccion.insets = new Insets(0, 0, 0, 0);
+		restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(nombreProducto, restriccion);
 
-        JTextField input_cant = new JTextField();
-		input_cedula.setBorder( BorderFactory.createEmptyBorder(0, 10, 0, 10) );
-		restriccion.gridy = 9;
-		restriccion.gridx = 2;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 1;
-		restriccion.weightx = 10;
-		restriccion.insets = new Insets(0, 10, 0, 10);
-		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( input_cant, restriccion );
+        cantidadProducto = new JTextField("");
+        restriccion.gridx = 2;
+        restriccion.gridy = 9;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 10;
+        restriccion.insets = new Insets(0, 0, 0, 0);
+        restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(cantidadProducto, restriccion);
 
-        JButton btn_agregar = new JButton("AGREGAR");
-		restriccion.gridy = 9;
-		restriccion.gridx = 3;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 1;
-		restriccion.weighty = 1;
-		restriccion.weightx = 10;
-		restriccion.fill = GridBagConstraints.BOTH;
-		contPrincipal.add( btn_agregar, restriccion );
+        botonAgregar = new JButton("ADD");
+        restriccion.gridx = 3;
+        restriccion.gridy = 9;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 20;
+        restriccion.insets = new Insets(0, 10, 0, 10);
+        restriccion.fill = (GridBagConstraints.BOTH);
+        contPrincipal.add(botonAgregar, restriccion);
 
-        JLabel etq_resultado = new JLabel(" ---- ");
-		etq_resultado.setHorizontalAlignment( JLabel.RIGHT );
-		etq_resultado.setVerticalAlignment( JLabel.TOP );
-		etq_resultado.setFont( new Font("Arial", Font.BOLD, 10) );
-		etq_resultado.setOpaque(true);
-		etq_resultado.setBackground( Color.white );
-		etq_resultado.setBorder( BorderFactory.createEmptyBorder(10, 10, 10, 10) );
-		restriccion.gridy = 10;
-		restriccion.gridx = 0;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 4;
-		restriccion.weighty = 89;
-		restriccion.weightx = 100;
-		restriccion.fill = GridBagConstraints.BOTH;
-		restriccion.insets = new Insets(10, 0, 0, 10);
-		contPrincipal.add( etq_resultado, restriccion );
+        //** --- Seccion factura --- */
 
-		JLabel etq_total = new JLabel("Total: $ 0");
-		etq_total.setHorizontalAlignment( JLabel.RIGHT );
-		etq_total.setFont( new Font("Arial", Font.BOLD, 20) );
-		etq_total.setOpaque(true);
-		etq_total.setBackground( Color.white );
-		etq_total.setBorder( BorderFactory.createEmptyBorder(5, 10, 5, 10) );
-		restriccion.gridy = 11;
-		restriccion.gridx = 0;
-		restriccion.gridheight = 1;
-		restriccion.gridwidth = 4;
-		restriccion.weighty = 2;
-		restriccion.weightx = 100;
-		restriccion.fill = GridBagConstraints.BOTH;
-		restriccion.insets = new Insets(0, 0, 0, 10);
-		contPrincipal.add( etq_total, restriccion );
+        listaProductos = new JPanel();
+        listaProductos.setLayout( new BoxLayout(listaProductos, BoxLayout.Y_AXIS) );
+        listaProductos.setOpaque(true);
+        listaProductos.setBackground(Color.white);
+        
+        JScrollPane scrollPane = new JScrollPane(listaProductos);
+        scrollPane.setPreferredSize( contPrincipal.getSize() );
+
+        restriccion.gridx = 0;
+        restriccion.gridy = 10;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 4;
+        restriccion.weighty = 90;
+        restriccion.weightx = 100;
+        restriccion.fill = (GridBagConstraints.BOTH);
+        restriccion.insets = new Insets(10,0,0,10);
+        contPrincipal.add(scrollPane, restriccion);
+
+        etqTotal = new JLabel("Total: $ " + totalCompra);
+        etqTotal.setHorizontalAlignment(JLabel.RIGHT);
+        etqTotal.setBorder(BorderFactory.createEmptyBorder(5,10,5,10));
+        restriccion.gridx = 0;
+        restriccion.gridy = 11;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 4;
+        restriccion.weighty = 2;
+        restriccion.weightx = 100;
+        restriccion.fill = (GridBagConstraints.BOTH);
+        restriccion.insets = new Insets(0,0,0,10);
+        etqTotal.setOpaque(true);
+        etqTotal.setBackground(Color.white);
+        contPrincipal.add(etqTotal, restriccion);
+
+        botonLimpiar = new JButton("Limpiar");
+        botonLimpiar.setHorizontalAlignment(JButton.CENTER);
+        botonLimpiar.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        restriccion.gridx = 3;
+        restriccion.gridy = 12;
+        restriccion.gridheight = 1;
+        restriccion.gridwidth = 1;
+        restriccion.weighty = 1;
+        restriccion.weightx = 20;
+        restriccion.fill = (GridBagConstraints.BOTH);
+        restriccion.insets = new Insets(10,10,0,10);
+        contPrincipal.add(botonLimpiar,restriccion);
         
 
         add( contPrincipal );
@@ -342,6 +368,35 @@ public class Factura1Layout extends JFrame {
 			}
 		};
 		btn_buscar1.addActionListener( evento_02 );
+
+		KeyListener eventoKeyBuscarProducto = new KeyListener(){
+            public void keyPressed(KeyEvent e){
+            }
+
+            public void keyReleased(KeyEvent e){
+                buscarProductos();
+            }   
+
+            public void keyTyped(KeyEvent e){
+               
+            }
+        };
+        KeyListener eventoKeyAgregarProductos = new KeyListener(){
+            public void keyPressed(KeyEvent e){
+
+            }
+
+            public void keyReleased(KeyEvent e){
+            }
+
+            public void keyTyped(KeyEvent e){
+                agregarProductos();
+            }
+        };
+
+
+		inputId.addKeyListener(eventoKeyBuscarProducto);
+        inputId.addKeyListener(eventoKeyAgregarProductos);
 
     }
 	public boolean validarNumero(String texto){
@@ -407,17 +462,67 @@ public class Factura1Layout extends JFrame {
 		}	
 	}
 
-	
-
 	public void deshabilitarInput(JTextField input){
-		input.setEditable(false);
-		input.setEnabled(false);
-		input.setDisabledTextColor(Color.black);
-	}
+        input.setEditable(false);
+        input.setEnabled(false);
+        input.setDisabledTextColor(Color.black);
+    }
 
-	public void habilitarInput(JTextField input){
-		input.setText("");
-		input.setEditable(true);
-		input.setEnabled(true);
-	}
+    public void habilitarInput(JTextField input){
+        input.setText(" ");
+        input.setEditable(true);
+        input.setEnabled(true);
+    }
+
+    public void agregarProductos(){
+        String id = inputId.getText().replaceAll(" ","");
+        String cantidadString =  cantidadProducto.getText().replaceAll(" ","");
+
+        if(!id.equalsIgnoreCase("") && !cantidadString.equalsIgnoreCase("")){
+            boolean encontrado = false;
+            for(int i = 0; i < this.arrayProductos.length; i++){
+                if(this.arrayProductos[i] != null && this.arrayProductos[i].getIdProducto().equalsIgnoreCase(id)){
+                    int cantidadInt = Integer.parseInt(cantidadString);
+                    int valorProducto = this.arrayProductos[i].getPrecio() * cantidadInt;
+                    etq_temporal = new JLabel(this.arrayProductos[i].getIdProducto() + " - " + this.arrayProductos[i].getNombreProducto() + " - " + cantidadProducto.getText() + " - " + valorProducto);                    
+                    listaProductos.add(etq_temporal);
+                    nombreProducto.setText(arrayProductos[i].getNombreProducto());
+                    encontrado = true;
+                    totalCompra += valorProducto;
+                    etqTotal.setText("Total: $ " + Integer.toString(totalCompra));
+                    this.inputId.setText("");
+                    
+                    revalidate();
+                    break;
+                }
+            }
+            if(!encontrado){
+                nombreProducto.setText("No encontrado");
+            }
+
+
+        }
+    }
+
+    public void buscarProductos(){
+        String id = inputId.getText().replaceAll(" ","");
+        boolean encontrado = false;
+        if(!id.equalsIgnoreCase("")){
+            for(int i = 0; i < this.arrayProductos.length; i++){
+                if(this.arrayProductos[i] != null && this.arrayProductos[i].getIdProducto().equalsIgnoreCase(id)){
+                    this.nombreProducto.setText( this.arrayProductos[i].getNombreProducto());
+                    encontrado = true;
+                    break;
+                }
+            }
+        }
+        if(!encontrado){
+            this.nombreProducto.setText("");
+        }else{
+            cantidadProducto.setText("1");
+            agregarProductos();
+        }
+    }
+
+	
 }
